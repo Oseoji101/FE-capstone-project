@@ -11,8 +11,7 @@ useEffect(() => {
         if (data.Response === "True") {
             setMovies(data.Search);
         } else {
-            setMovies([]);
-            console.warn('No movies found:', data.Error);
+            console.warn('No movies found:', data);
         }
     }catch (error) {
         console.error('Error fetching movies:', error);
@@ -24,12 +23,17 @@ useEffect(() => {
     
         return (
             <div>
-                <h2>Movie List</h2>
-                <ul>
-                    {movies && movies.map((movie, index) => (
-                        <li key={index}>{movie.Title}</li>
-                    ))}
-                </ul>
+                <h1>Movie List</h1>
+                    {movies.length > 0 ? (movies.map((movie) => (
+                        <div key={movie.index}>
+                            <h3>{movie.Title}</h3>
+                            <img src={movie.Poster} alt={movie.Title} width="100"/>
+                        </div>
+                    ))
+                ): (
+                    <p>Loading movies...</p>
+                )
+            }
             </div>
         );
     };
