@@ -25,9 +25,11 @@ useEffect(() => {
             <div>
                 <h1>Movie List</h1>
                     {movies.length > 0 ? (movies.map((movie) => (
-                        <div key={movie.index}>
+                        <div key={movie.imdbID}>
                             <h3>{movie.Title}</h3>
+                            <p> Release date: {movie.Year}</p>
                             <img src={movie.Poster} alt={movie.Title} width="100"/>
+                            
                         </div>
                     ))
                 ): (
