@@ -1,17 +1,17 @@
-import React from "react"
 import {useState, useEffect} from "react"
-import {Link, useParam} from "react-router-dom"
+import { useParams, Link } from "react-router-dom";
+
 function MovieDetails() {
-  const [movies, setMovies] = useState();
+  const [movie, setMovie] = useState();
   const {id} = useParams();
 
 
-  useEffect((id) => {
+  useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        const response = await fetch()
+        const response = await fetch('https://www.omdbapi.com/?i=${id}=batman&apikey=5eef6005')
         const data = await response.json();
-        setMovies(data);
+        setMovie(data);
       }catch (error) {
           console.error("Error fetching movie details:", error);
         }
@@ -29,7 +29,7 @@ function MovieDetails() {
           <Link to="/">Back to movies </Link>
         <div>
           <h3>{movie.Title}</h3>
-          <img src="{movie.Poster}" alt="{movie.Title}"/>
+          <img src={movie.Poster} alt={movie.Title}/>
           <p>plot: {movie.Plot}</p>
           <p>Genre: {movie.Genre}</p>
           <p>movie summary: {movie.Summary}</p>
@@ -38,7 +38,7 @@ function MovieDetails() {
           <ul>
             {movie.Ratings?.map((rating, index) =>
              <li key={index}>
-               {Rating.Source}:{Rating.Value}
+               {rating.Source}:{rating.Value}
              </li>)}
           </ul>
         </div>
