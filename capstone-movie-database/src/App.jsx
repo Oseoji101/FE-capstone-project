@@ -4,19 +4,25 @@ import MovieList from './components/movie-list'
 import SearchBar from './components/SearchBar'
 import MovieDetails from './components/MovieDetails'
 import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom'
-import MovieCard from './components/MovieCard'
+
 function App() {
+  const [searchTerm, setSearchTerm] = useState('batman');
   
 
   return (
     <>
       <div>
-        <SearchBar />
       
         <Router>
           <Routes>
-            <Route path='/' element={<MovieList />}></Route>
-            <Route path='/movies/:id' element={<MovieDetails/>}></Route>
+            <Route path='/' element={
+              <>
+                <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm}/>
+                <MovieList searchTerm={searchTerm} />            
+              </>
+            }
+              />
+            <Route path='/movies/:id' element={<MovieDetails/>} />
           </Routes>
         </Router>    
         
