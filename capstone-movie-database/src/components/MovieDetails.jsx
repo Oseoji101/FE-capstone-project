@@ -9,7 +9,7 @@ function MovieDetails() {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        const response = await fetch('https://www.omdbapi.com/?i=${id}=batman&apikey=5eef6005')
+        const response = await fetch(`https://www.omdbapi.com/?i=${id}&apikey=5eef6005`)
         const data = await response.json();
         setMovie(data);
       }catch (error) {
@@ -20,8 +20,8 @@ function MovieDetails() {
     fetchMovieDetails();
   },[id]);
 
-  if(!movies) {
-    return <p>Movies Loading...</p>
+  if(!movie) {
+    return <p>Loading movie details...</p>
   }
       return (
     <div>
@@ -36,10 +36,11 @@ function MovieDetails() {
           <p>Director: {movie.Director}</p>
           <h3>Ratings</h3>
           <ul>
-            {movie.Ratings?.map((rating, index) =>
+            {movie.Ratings?.map((rating, index) => (
              <li key={index}>
                {rating.Source}:{rating.Value}
-             </li>)}
+             </li>
+             ))}
           </ul>
         </div>
       </div>
