@@ -34,14 +34,14 @@ useEffect(() => {
         }, [searchTerm]);
     
         return (
-    <div>
-        <h1>Movie List</h1>
+    <div className="movie-lists min-h-screen bg-green-600 p-8">
+        <h1 className="text-white-500 font-bold text-4xl text-center mb-8">Movie List</h1>
 
         {loading && <p>Loading movies...</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
 
         {!loading && !error && movies.length > 0 && (
-            <div>
+            <div className='grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-2'>
             {movies.map((movie) => (
                 <MovieCard key={movie.imdbID} movie={movie} />
             ))}
