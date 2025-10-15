@@ -10,21 +10,25 @@ const MovieList = ({searchTerm}) => {
 
 useEffect(() => {
     const fetchMovies = async () => {
+        //checking if searchBar is empty
+        if(!searchTerm.trim()) {
+            setMovies([]);
+            setLoading(false);
+            return;
+        }
         setLoading(true);
-        setError("");
+    //making API call 
     try {
         const response = await fetch(`https://www.omdbapi.com/?s=${searchTerm.trim()}&apikey=5eef6005`);
         const data = await response.json()
-        console.log("API data:", data);
     if (data.Response === "True") {
             setMovies(data.Search);
         } else {
             setMovies([]);
-            setError(data.Error || "No movies found.");
         }
     }catch (error) {
         console.error('Error fetching movies:', error);
-        setError("Failed to fetch movies. Please try again later.");
+        
 
     } finally {
         setLoading(false);
@@ -34,16 +38,22 @@ useEffect(() => {
         }, [searchTerm]);
     
         return (
-    <div className="movie-lists min-h-screen bg-green-600 p-8">
-        <h1 className="text-white-500 font-bold text-4xl text-center mb-8">Movie List</h1>
+    <div className="movie-lists min-h-screen p-8">
+        <h1 className="font-bold text-4xl text-center mb-4">Movie Title</h1>
 
-        {loading && <p>Loading movies...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        {!loading && !error && movies.length > 0 && (
-            <div className='grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-2'>
+        {loading? (<p className='text-center text-gray-500'>Loading movies...</p>)
+        :!searchTerm.trim()? (
+            <p className="text-gray-500 italic">
+                Please enter a movie title above 🎬
+            </p>
+            ) : movies.length === 0 ? (
+            <p className="text-gray-500 italic">
+                No movies found for "{searchTerm}". Try another title!
+            </p>):(
+            <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 p-2'>
             {movies.map((movie) => (
                 <MovieCard key={movie.imdbID} movie={movie} />
+                
             ))}
             </div>
         )}
